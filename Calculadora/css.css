@@ -1,0 +1,17 @@
+.calculadora{
+
+    width: 300px; /*ancho*/
+    margin: 80px auto; 
+    border: 2px solid rgb(177, 49, 246);
+    padding: 30px;/*espacio entre margen y num cal*/
+    border-radius: 10px;
+    background-color: rgb(255, 126, 236);
+}
+
+input[type="button"]{
+    width: 60px;
+    height: 90px;
+    margin: 5px;
+    font-size: 20px;
+    cursor:grab;
+}
