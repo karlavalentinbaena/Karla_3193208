@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/estilo.css">
 </head>
 <body>
     <h1>Formulario</h1>
     <form id="formulario">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <label for="nom">Nombre:</label>
+        <input type="text" id="nom" name="nom" required>
         <br>
         <label for="phone">Celular:</label>
         <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
@@ -23,7 +23,7 @@
         document.getElementById('formulario').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const nombre = document.getElementById('nombre').value;
+            const nombre = document.getElementById('nom').value;
             const email = document.getElementById('phone').value;
 
             fetch('/formulario', {
@@ -32,7 +32,7 @@
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: new URLSearchParams({
-                    nombre: nombre,
+                    nombre: nom,
                     email: email
                 })
             }).then(response => {
@@ -40,7 +40,7 @@
                     document.getElementById('mensaje').textContent = 'Datos enviados correctamente';
                     document.getElementById('formulario').reset();
                 } else {
-                    document.getElementById('mensaje').textContent = 'Datos enviados';
+                    document.getElementById('mensaje').textContent = 'Datos sin enviar';
                 }
             }).catch(error => {
                 document.getElementById('mensaje').textContent = 'Error de conexión';
