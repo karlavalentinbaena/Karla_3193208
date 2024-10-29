@@ -18,7 +18,7 @@ app.get('/formulario', (req, res) => {
 
 app.post('/formulario', (req, res) => {
     formDataList.push(req.body);
-    res.status(200).send('Datos recibidos correctamente');
+    res.status(200).send('Datos recibidos');
 });
 
 app.get('/informacion', (req, res) => {
@@ -26,7 +26,7 @@ app.get('/informacion', (req, res) => {
         <tr>
             <td>${index + 1}</td>
             <td>${data.nombre}</td>
-            <td>${data.email}</td>
+            <td>${data.phone}</td>
         </tr>
     `).join('');
 
@@ -37,15 +37,15 @@ app.get('/informacion', (req, res) => {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Datos Recabados</title>
-            <link rel="stylesheet" href="styles/style.css">
+            <link rel="stylesheet" href="styles/estilose.css">
         </head>
         <body>
-            <h1>Datos Recabados</h1>
+            <h1>Datos </h1>
             <table>
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Email</th>
+                    <th>Telefono</th>
                 </tr>
                 ${tableRows}
             </table>
