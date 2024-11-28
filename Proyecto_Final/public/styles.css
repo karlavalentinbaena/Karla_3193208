@@ -1,0 +1,58 @@
+/* Tabla estilizada */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffbdec;
+    font-size: 14px;
+}
+
+th {
+    background-color: #e405b0; /*encabezado */
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* lineas de la tabla */
+td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ff008c;
+}
+
+/* contenido tabla */
+tr:nth-child(even) {
+    background-color: #eabffb;
+}
+
+tr:hover {
+    background-color: #e9ecef; /* Efecto hover */
+}
+
+/* Botones recargar, agregar y editar */
+button {
+    background-color: #972bef; /* morado para botones de acción */
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+/* cuando se pasa el mouse cambia a color más oscuro */
+button:hover {
+    background-color: #85097f;
+}
+
+/* Botón eliminar */
+button.delete {
+    background-color: #470034; 
+}
+
+/* se pausa el mouse se ilumina de rojo el botón */
+button.delete:hover {
+    background-color: #c82333;
+}
