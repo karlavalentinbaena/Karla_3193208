@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base de Datos Estudiantes</title>
+    <link rel="stylesheet" href="/public/styles.css">
+    <script>
+        // Función para cargar los estudiantes
+        function cargarEstudiantes() {
+            fetch('http://localhost:3009/listar')
+                .then(response => response.json())
+                .then(data => {
+                    const tablaEstudiantes = document.getElementById('tabla-estudiantes');
+                    tablaEstudiantes.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos datos
+                    data.forEach(estudiante => {
+                        const fila = document.createElement('tr');
+                        fila.innerHTML = `
+                            <td>${estudiante.id}</td>
+                            <td>${estudiante.nombre}</td>
+                            <td>${estudiante.apellido}</td>
+                            <td>${estudiante.email}</td>
+                            <td>${estudiante.telefono}</td>
+                            <td>${estudiante.direccion}</td>
+                            <td>${estudiante.genero}</td>
+                            <td>${estudiante.curso}</td>
+                            <td>${estudiante.cuenta}</td>
+                            <td>
+                                 <button onclick="editarEstudiante(${estudiante.id})">Editar</button>
+                                 <button class="delete" onclick="eliminarEstudiante(${estudiante.id})">Eliminar</button>
+                            </td>
+                        `;
+                        tablaEstudiantes.appendChild(fila);
+                    });
+                })
+                .catch(error => console.log('Error al cargar estudiantes:', error));
+        }
+
+        // Función para agregar un nuevo estudiante
+        function agregarEstudiante(event) {
+            event.preventDefault(); // Evitar el envío del formulario
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = new URLSearchParams(formData);
+
+            fetch('http://localhost:3009/agregar', {
+                method: 'POST',
+                body: data,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    cargarEstudiantes(); // Recargar la lista de estudiantes
+                    form.reset(); // Limpiar el formulario
+                })
+                .catch(error => console.log('Error al agregar estudiante:', error));
+        }
+
+        // Función para editar un estudiante
+        function editarEstudiante(id) {
+            const nuevoNombre = prompt('Nuevo nombre:');
+            const nuevoApellido = prompt('Nuevo apellido:');
+            const nuevoEmail = prompt('Nuevo email:');
+            const nuevoTelefono = prompt('Nuevo teléfono:');
+            const nuevaDireccion = prompt('Nueva dirección:');
+            const nuevoGenero = prompt('Nuevo género:');
+            const nuevoCurso = prompt('Nuevo curso:');
+            const nuevaCuenta = prompt('Nueva cuenta:');
+
+            fetch(`http://localhost:3009/editar/${id}`, { // Usa backticks
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `nombre=${encodeURIComponent(nuevoNombre)}&apellido=${encodeURIComponent(nuevoApellido)}&email=${encodeURIComponent(nuevoEmail)}&telefono=${encodeURIComponent(nuevoTelefono)}&direccion=${encodeURIComponent(nuevaDireccion)}&genero=${encodeURIComponent(nuevoGenero)}&curso=${encodeURIComponent(nuevoCurso)}&cuenta=${encodeURIComponent(nuevaCuenta)}`,
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    cargarEstudiantes(); // Recargar la lista de estudiantes
+                })
+                .catch(error => console.log('Error al editar estudiante:', error));
+        }
+
+        // Función para eliminar un estudiante
+        function eliminarEstudiante(id) {
+            fetch(`http://localhost:3009/eliminar/${id}`, { // Usa backticks
+                method: 'POST',
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    cargarEstudiantes(); // Recargar la lista de estudiantes
+                })
+                .catch(error => console.log('Error al eliminar estudiante:', error));
+        }
+
+        // Cargar los estudiantes al cargar la página
+        window.onload = function() {
+            cargarEstudiantes();
+        };
+    </script>
+</head>
+<body>
+    <h2>Nuevo estudiante</h2>
+    <form id="form-agregar" onsubmit="agregarEstudiante(event)">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required><br><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" id="apellido" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" name="telefono"><br><br>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion"><br><br>
+
+        <label for="genero">Género:</label>
+        <input type="text" name="genero"><br><br>
+
+        <label for="curso">Curso:</label>
+        <input type="text" name="curso"><br><br>
+
+        <label for="cuenta">Cuenta:</label>
+        <input type="text" name="cuenta"><br><br>
+
+        <button type="submit">Agregar Estudiante</button>      
+    </form>
+
+    <h2>Lista de estudiantes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Género</th>
+                <th>Curso</th>
+                <th>Cuenta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-estudiantes">
+            <!-- Aquí se mostrarán los estudiantes -->
+        </tbody>
+    </table>
+
+    <br>
+    <button onclick="window.location.reload();">Recargar Lista</button>
+    
+</body>
+</html>
